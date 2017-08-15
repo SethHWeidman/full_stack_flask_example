@@ -28,7 +28,6 @@ def restaurantMenuJSON(restaurant_id):
     return jsonify(MenuItems=[i.serialize for i in items])
 
 
-# ADD JSON ENDPOINT HERE
 @app.route('/restaurants/<int:restaurant_id>/menu/<int:menu_id>/JSON')
 def menuItemJSON(restaurant_id, menu_id):
     menuItem = session.query(MenuItem).filter_by(id=menu_id).one()
@@ -39,8 +38,11 @@ def menuItemJSON(restaurant_id, menu_id):
 def newMenuItem(restaurant_id):
 
     if request.method == 'POST':
-        newItem = MenuItem(name=request.form['name'], description=request.form[
-                           'description'], price=request.form['price'], course=request.form['course'], restaurant_id=restaurant_id)
+        newItem = MenuItem(name=request.form['name'],
+                           description=request.form['description'],
+                           price=request.form['price'],
+                           course=request.form['course'],
+                           restaurant_id=restaurant_id)
         session.add(newItem)
         session.commit()
         flash('new menu item created!')
@@ -69,7 +71,6 @@ def editMenuItem(restaurant_id, menu_id):
         flash("Menu Item has been edited")
         return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
-
         return render_template(
             'editmenuitem.html', restaurant_id=restaurant_id, menu_id=menu_id, item=editedItem)
 
